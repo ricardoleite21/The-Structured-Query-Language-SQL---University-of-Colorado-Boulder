@@ -1,0 +1,27 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  sql-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        ports: [ '5432:5432' ]
+        env:
+          POSTGRES_DB: retailx
+          POSTGRES_USER: retailx
+          POSTGRES_PASSWORD: retailx
+        options: >-
+          --health-cmd="pg_isready -U retailx -d retailx"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client && python3 -m pip install -U pip sqlfluff
+      - run: for i in {1..10}; do pg_isready -h localhost -p 5432 -d retailx -U retailx && break; sleep 3; done
+      - env: { PGPASSWORD: retailx }
+        run: psql -h localhost -p 5432 -U retailx -d retailx -f docker/init/01_schema.sql
+      - env: { PGPASSWORD: retailx }
+        run: psql -h localhost -p 5432 -U retailx -d retailx -f docker/init/02_seed.sql
+      - env: { PGPASSWORD: retailx }
+        run: psql -h localhost -p 5432 -U retailx -d retailx -f tests.sql
+      - run: sqlfluff lint .
