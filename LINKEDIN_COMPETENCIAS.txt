@@ -1,0 +1,1 @@
+SQL (ANSI); JOINs; Subqueries; Agregações; Índices; Constraints; Triggers; Docker; PostgreSQL; GitHub Actions; SQLFluff; Testes SQL; ER (Mermaid); Documentação.

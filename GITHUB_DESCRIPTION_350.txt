@@ -1,0 +1,1 @@
+Projeto completo de SQL (ANSI) alinhado a DTSA 5734 (CU Boulder/Coursera). RetailX schema, dados sintéticos, 20 desafios, soluções, rubrica, Docker (Postgres+pgAdmin), Makefile, testes, triggers, Mermaid ER, notebook e CI (Actions + SQLFluff).

@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: retailx
+      POSTGRES_PASSWORD: retailx
+      POSTGRES_DB: retailx
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/init:/docker-entrypoint-initdb.d
+  pgadmin:
+    image: dpage/pgadmin4:8
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
